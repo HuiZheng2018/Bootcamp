@@ -1,0 +1,41 @@
+
+Ball ball1; 
+Ball[] balls;
+import processing.sound.*;
+
+FFT fft; 
+int bands = 256;
+//float[] spectrum = new float[bands];
+float baseline;
+
+void setup()
+{
+  size(800, 700);
+  ball1=new Ball(); 
+  balls = new Ball [500];
+  //baseLine = 20;
+
+  for (int i=0; i<balls.length; i++) {
+    balls[i] = new Ball();
+  }
+    // Load the sound file.
+  SoundFile song = new SoundFile(this, "rainraingoawayfull.wav");
+  song.play();
+  
+  // Tell the Fast Fourier Transformer to process the song file.
+  fft = new FFT(this, bands);
+  fft.input(song);
+}
+  void draw()
+  {
+    background(232, 250, 254);
+
+   for (int index=0; index<balls.length; index++) {
+      balls[index].draw();
+      balls[index].move();
+      
+      fft.analyze();    // Analyse the current sound being played.
+      
+      
+    }
+  }
